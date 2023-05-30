@@ -2,6 +2,7 @@ package com.wondo.council.service.impl;
 
 import com.wondo.council.domain.User;
 import com.wondo.council.domain.enums.Role;
+import com.wondo.council.domain.enums.UserIsMember;
 import com.wondo.council.dto.user.SignUpRequestDto;
 import com.wondo.council.jwt.TokenProvider;
 import com.wondo.council.repository.UserRepository;
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
                 .dong(dto.getDong())
                 .ho(dto.getHo())
                 .phone(dto.getPhone())
+                .isMember(UserIsMember.WAIT)
                 .build();
         // 문제 없으면 저장
         try {

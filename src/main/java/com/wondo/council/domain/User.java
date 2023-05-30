@@ -1,6 +1,7 @@
 package com.wondo.council.domain;
 
 import com.wondo.council.domain.enums.Role;
+import com.wondo.council.domain.enums.UserIsMember;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,6 +44,10 @@ public class User {
 
     @Column(name = "ho")
     private int ho;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "isMember")
+    private UserIsMember isMember;
 
     @Column(name = "token")
     private String token;

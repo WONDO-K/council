@@ -3,18 +3,26 @@ package com.wondo.council.service.impl;
 import com.wondo.council.domain.User;
 import com.wondo.council.domain.enums.Role;
 import com.wondo.council.domain.enums.UserIsMember;
+import com.wondo.council.dto.TokenDto;
+import com.wondo.council.dto.user.LoginRequestDto;
 import com.wondo.council.dto.user.SignUpRequestDto;
 import com.wondo.council.jwt.TokenProvider;
 import com.wondo.council.repository.UserRepository;
 import com.wondo.council.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+
+import static jdk.nashorn.internal.objects.Global.print;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +48,7 @@ public class UserServiceImpl implements UserService {
                 .dong(dto.getDong())
                 .ho(dto.getHo())
                 .phone(dto.getPhone())
-                .isMember(UserIsMember.WAIT)
+                .isMember(UserIsMember.POSSIBLE)
                 .build();
         // 문제 없으면 저장
         try {
@@ -73,6 +81,40 @@ public class UserServiceImpl implements UserService {
         // nickname으로 검색후 존재 유무를 bool값으로 전달
         Optional<User> entity = userRepository.findByEmail(email);
         return entity.isPresent();
+    }
+
+    @Override
+    public TokenDto doLogin(LoginRequestDto loginDto){
+        UserIsMember status = userRepository.findByUsername(loginDto.getUsername()).get().getIsMember();
+        if (status.equals(UserIsMember.WAIT)){
+            throw new AccessDeniedException("승인 대기 중 입니다.");
+        } else if (status.equals(UserIsMember.REFUSAL)) {
+            throw new AccessDeniedException("승인 거절되었습니다.");
+        } else {
+            // 아이디와 비밀번호로 AuthenticationToken 생성
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPw());
+            System.out.println("authenticationToken : " + authenticationToken);
+
+            // CustomUserDetailsService의 loadByUserName실행
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            System.out.println("authentication : "+authentication);
+
+            // 인증 정보 기반으로 JWT 토큰 생성
+            TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+            System.out.println("tokenDto : "+ tokenDto);
+
+            // RefreshToken 저장
+            Optional<User> entity = userRepository.findByUsername(authentication.getName());
+            if (entity.isPresent()) {
+                entity.get().saveToken(tokenDto.getRefreshToken());
+                userRepository.save(entity.get());
+            }
+
+            return tokenDto;
+        }
+
     }
 
 }

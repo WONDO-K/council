@@ -1,13 +1,16 @@
 package com.wondo.council.controller;
 
+import com.wondo.council.dto.TokenDto;
 import com.wondo.council.dto.exception.common.InvalidParameterException;
 import com.wondo.council.dto.exception.user.DuplicateIdException;
+import com.wondo.council.dto.user.LoginRequestDto;
 import com.wondo.council.dto.user.SignUpRequestDto;
 import com.wondo.council.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -55,5 +58,18 @@ public class UserController {
         return new ResponseEntity<>(userService.checkEmail(email), HttpStatus.OK);
     }
 
+    @PostMapping("/auth/login")
+    @ApiOperation(value = "로그인", notes = "아이디와 비밀번호를 통해 로그인한다.")
+    public ResponseEntity<TokenDto> doLogin(@Valid @RequestBody LoginRequestDto requestDto, BindingResult result){
+        if (result.hasErrors()){
+            throw new InvalidParameterException(result);
+        }
+        TokenDto tokenDto = userService.doLogin(requestDto);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Auth", tokenDto.getAccessToken());
+        headers.add("Refresh", tokenDto.getRefreshToken());
+
+        return new ResponseEntity<>(tokenDto, headers, HttpStatus.OK);
+    }
 
 }

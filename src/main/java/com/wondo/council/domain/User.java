@@ -55,4 +55,8 @@ public class User {
     public void saveToken(String token) {
         this.token = token;
     }
+
+    public void approvalSignUp(){
+        this.isMember = UserIsMember.POSSIBLE;
+    }
 }

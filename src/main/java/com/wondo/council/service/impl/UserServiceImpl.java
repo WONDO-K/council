@@ -4,11 +4,13 @@ import com.wondo.council.domain.User;
 import com.wondo.council.domain.enums.Role;
 import com.wondo.council.domain.enums.UserIsMember;
 import com.wondo.council.dto.TokenDto;
+import com.wondo.council.dto.exception.user.UserNotFoundException;
 import com.wondo.council.dto.user.LoginRequestDto;
 import com.wondo.council.dto.user.SignUpRequestDto;
 import com.wondo.council.jwt.TokenProvider;
 import com.wondo.council.repository.UserRepository;
 import com.wondo.council.service.UserService;
+import com.wondo.council.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -121,6 +123,10 @@ public class UserServiceImpl implements UserService {
             return tokenDto;
         }
 
+    }
+    @Override
+    public User getMyInfo(){
+        return SecurityUtil.getCurrentUsername().flatMap(userRepository :: findByUsername).orElseThrow(UserNotFoundException::new);
     }
 
 }

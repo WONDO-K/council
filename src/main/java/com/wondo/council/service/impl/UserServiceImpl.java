@@ -10,6 +10,7 @@ import com.wondo.council.jwt.TokenProvider;
 import com.wondo.council.repository.UserRepository;
 import com.wondo.council.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +28,7 @@ import static jdk.nashorn.internal.objects.Global.print;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Log4j2
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -48,7 +50,7 @@ public class UserServiceImpl implements UserService {
                 .dong(dto.getDong())
                 .ho(dto.getHo())
                 .phone(dto.getPhone())
-                .isMember(UserIsMember.POSSIBLE)
+                .isMember(UserIsMember.WAIT)
                 .build();
         // 문제 없으면 저장
         try {
@@ -87,10 +89,13 @@ public class UserServiceImpl implements UserService {
     public TokenDto doLogin(LoginRequestDto loginDto){
         UserIsMember status = userRepository.findByUsername(loginDto.getUsername()).get().getIsMember();
         if (status.equals(UserIsMember.WAIT)){
+            log.error("승인 대기 중 입니다.");
             throw new AccessDeniedException("승인 대기 중 입니다.");
         } else if (status.equals(UserIsMember.REFUSAL)) {
+            log.error("승인 거절되었습니다.");
             throw new AccessDeniedException("승인 거절되었습니다.");
         } else {
+            log.info("가입 승인 확인");
             // 아이디와 비밀번호로 AuthenticationToken 생성
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPw());
@@ -100,6 +105,7 @@ public class UserServiceImpl implements UserService {
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             System.out.println("authentication : "+authentication);
+            log.info("authentication : "+authentication);
 
             // 인증 정보 기반으로 JWT 토큰 생성
             TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);

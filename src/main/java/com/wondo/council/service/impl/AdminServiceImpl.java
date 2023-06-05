@@ -30,8 +30,9 @@ public class AdminServiceImpl implements AdminService {
         User admin = userService.getMyInfo();
         if (admin.getRole().equals(Role.ADMIN)){
             User user = userRepository.findByUsername(requestDto.getUsername()).orElseThrow(() -> new UserNotFoundException());
-            user.approvalSignUp();
+            user.approvalSignUp(requestDto.getIsMember());
             userRepository.save(user);
+            log.info("가입 승인 처리가 완료 되었습니다.");
         } else {
             log.info("관리자 권한으로만 처리할 수 있습니다.");
             throw new AuthenticationException();

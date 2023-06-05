@@ -56,7 +56,7 @@ public class User {
         this.token = token;
     }
 
-    public void approvalSignUp(){
-        this.isMember = UserIsMember.POSSIBLE;
+    public void approvalSignUp(UserIsMember inputIsMember){
+        this.isMember = inputIsMember;
     }
 }

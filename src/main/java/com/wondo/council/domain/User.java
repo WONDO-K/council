@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -48,6 +49,10 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "isMember")
     private UserIsMember isMember;
+
+    // List < 어떤 틀을 가짐? > 변수명
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Article> articles;
 
     @Column(name = "token")
     private String token;

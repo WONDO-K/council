@@ -137,6 +137,7 @@ public class UserServiceImpl implements UserService {
         if (!changeNick){
             user.changeNickname(nickname);
             userRepository.save(user);
+            log.info("닉네임 변경이 완료되었습니다.");
         } else {
             log.info("중복된 닉네임 입니다.");
             // 중복된 닉네임을 처리할 때 발생하는 오류

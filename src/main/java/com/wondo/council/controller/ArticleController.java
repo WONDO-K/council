@@ -45,4 +45,14 @@ public class ArticleController {
         articleService.deleteArticle(uid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PutMapping("/update/{uid}")
+    @ApiOperation(value = "게시글 수정", notes = "게시글을 수정한다.")
+    public ResponseEntity<?> updateArticle(
+            @PathVariable @ApiParam(value = "게시글 번호 uid",required = true) Long uid,
+            @RequestBody @ApiParam(value = "게시글 수정 Dto",required = true) ArticleRequestDto articleRequestDto
+    ){
+        articleService.updateArticle(uid,articleRequestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -11,11 +11,13 @@ import com.wondo.council.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +45,7 @@ public class ArticleServiceImpl implements ArticleService {
         log.info("게시글 작성 완료.");
     }
     @Override
+    @Transactional(readOnly = true)
     public List<ArticleDto> getArticleList(){
         List<ArticleDto> list = articleRepository.findAll().stream().map(m->ArticleDto.from(m))
                 .collect(Collectors.toList());
@@ -50,7 +53,7 @@ public class ArticleServiceImpl implements ArticleService {
         return list;
     }
 
-    @Override
+    @Override // readOnly를 적용했더니 addViewCount()가 작동하지 않음 -> readOnly는 읽기 전용이기 때문에 변경이 안됨
     public ArticleDto getArticle(Long uid) {
         Article article = articleRepository.findById(uid).orElseThrow(PostNotFoundException::new);
         article.addViewCount();
@@ -63,5 +66,25 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteArticle(Long uid) {
         articleRepository.deleteById(uid);
         log.info("게시글 삭제 완료.");
+    }
+
+    @Override
+    public void updateArticle(Long uid, ArticleRequestDto articleRequestDto) {
+        Optional<Article> article = articleRepository.findById(uid);
+        if (article.isPresent()){
+            String upDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()).toString();
+            if (article.get().getUser() == userService.getMyInfo()){
+                Article newArticle = Article.builder()
+                        .uid(uid)
+                        .title(articleRequestDto.getTitle())
+                        .content(articleRequestDto.getContent())
+                        .view(article.get().getView())
+                        .user(userService.getMyInfo())
+                        .upDate(upDate)
+                        .build();
+                articleRepository.save(newArticle);
+                log.info("게시글 수정이 완료되었습니다.");
+            }
+        }
     }
 }

@@ -37,6 +37,12 @@ public class ArticleController {
 
     }
 
+    @GetMapping("/any/articleList/sort")
+    @ApiOperation(value = "조회수 순으로 정렬된 리스트 조회", notes = "조회수 순으로 정렬된 리스트를 조회한다.")
+    public ResponseEntity<?> getSortAticleList(){
+        return new ResponseEntity<>(articleService.getSortArticleList(),HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete/{uid}")
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다.")
     public ResponseEntity<?> deleteArticle(

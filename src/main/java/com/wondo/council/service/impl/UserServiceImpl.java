@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static jdk.nashorn.internal.objects.Global.print;
 
 @Service
 @RequiredArgsConstructor
@@ -130,6 +129,7 @@ public class UserServiceImpl implements UserService {
 
     }
     @Override
+    @Transactional(readOnly = true)
     public User getMyInfo(){
         return SecurityUtil.getCurrentUsername().flatMap(userRepository :: findByUsername).orElseThrow(UserNotFoundException::new);
     }

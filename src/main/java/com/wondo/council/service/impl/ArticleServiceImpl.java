@@ -88,4 +88,12 @@ public class ArticleServiceImpl implements ArticleService {
             }
         }
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ArticleDto> getSortArticleList() {
+        List<ArticleDto> sortList = articleRepository.findAllByOrderByViewDesc().stream().map(m->ArticleDto.from(m))
+                .collect(Collectors.toList());
+        return sortList;
+    }
 }

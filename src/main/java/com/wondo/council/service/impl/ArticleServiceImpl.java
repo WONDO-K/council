@@ -39,7 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .user(user)
                 .build();
         articleRepository.save(article);
-        log.info("게시글 작성 완료");
+        log.info("게시글 작성 완료.");
     }
     @Override
     public List<ArticleDto> getArticleList(){

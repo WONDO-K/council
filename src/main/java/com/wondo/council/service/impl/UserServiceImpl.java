@@ -22,8 +22,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.Optional;
 
 import static jdk.nashorn.internal.objects.Global.print;
@@ -68,6 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean checkId(String username) {
         // user id로 검색 후 존재유무를 bool값으로 전달
         Optional<User> entity = userRepository.findByUsername(username);
@@ -75,6 +77,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean checkNickname(String nickname){
         // nickname으로 검색후 존재 유무를 bool값으로 전달
         Optional<User> entity = userRepository.findByNickname(nickname);
@@ -82,6 +85,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean checkEmail(String email){
         // nickname으로 검색후 존재 유무를 bool값으로 전달
         Optional<User> entity = userRepository.findByEmail(email);

@@ -53,7 +53,8 @@ public class ArticleServiceImpl implements ArticleService {
         return list;
     }
 
-    @Override // readOnly를 적용했더니 addViewCount()가 작동하지 않음 -> readOnly는 읽기 전용이기 때문에 변경이 안됨
+    @Override
+    // readOnly를 적용했더니 addViewCount()가 작동하지 않음 -> readOnly는 데이터의 수정이나 저장하는 작업을 수행할 수 없다.
     public ArticleDto getArticle(Long uid) {
         Article article = articleRepository.findById(uid).orElseThrow(PostNotFoundException::new);
         article.addViewCount();

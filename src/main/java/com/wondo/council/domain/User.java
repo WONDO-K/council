@@ -59,4 +59,12 @@ public class User {
     public void approvalSignUp(UserIsMember inputIsMember){
         this.isMember = inputIsMember;
     }
+
+    public void changeNickname(String newNickname){
+        this.nickname = newNickname;
+    }
+
+    public void changePw(String pw){
+        this.pw = pw;
+    }
 }

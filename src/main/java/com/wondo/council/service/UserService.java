@@ -18,4 +18,8 @@ public interface UserService {
     TokenDto doLogin(LoginRequestDto requestDto);
 
     User getMyInfo();
+
+    void changeNickname(String nickname);
+
+    void changePw(String pw);
 }

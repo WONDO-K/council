@@ -4,6 +4,7 @@ import com.wondo.council.domain.User;
 import com.wondo.council.domain.enums.Role;
 import com.wondo.council.domain.enums.UserIsMember;
 import com.wondo.council.dto.TokenDto;
+import com.wondo.council.dto.exception.user.DuplicateNicknameException;
 import com.wondo.council.dto.exception.user.UserNotFoundException;
 import com.wondo.council.dto.user.LoginRequestDto;
 import com.wondo.council.dto.user.SignUpRequestDto;
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService {
         // 문제 없으면 저장
         try {
             userRepository.save(user);
-            System.out.println("회원가입 저장 완료");
+            log.info("회원가입이 완료되었습니다.");
         // 문제 생기면 오류 발생
         } catch (DataIntegrityViolationException e){
             // DataIntegrityViolationException : 뭔가 잘못된 데이터가 바인딩 되었을때 발생하는 에러이다. SQL 문이 잘못되었거나 Data가 잘못되었을 경우
@@ -127,6 +128,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getMyInfo(){
         return SecurityUtil.getCurrentUsername().flatMap(userRepository :: findByUsername).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public void changeNickname(String nickname) {
+        User user = getMyInfo();
+        Boolean changeNick = checkNickname(nickname);
+        if (!changeNick){
+            user.changeNickname(nickname);
+            userRepository.save(user);
+        } else {
+            log.info("중복된 닉네임 입니다.");
+            // 중복된 닉네임을 처리할 때 발생하는 오류
+            throw new DuplicateNicknameException();
+        }
+
+    }
+
+    @Override
+    public void changePw(String pw) {
+        User user = getMyInfo();
+        user.changePw(passwordEncoder.encode(pw));
+        userRepository.save(user);
+        log.info("패스워드 변경이 완료되었습니다.");
     }
 
 }

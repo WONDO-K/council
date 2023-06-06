@@ -9,4 +9,6 @@ public interface ArticleService {
     void createArticle(ArticleRequestDto articleRequestDto);
 
     List<ArticleDto> getArticleList();
+
+    ArticleDto getArticle(Long uid);
 }

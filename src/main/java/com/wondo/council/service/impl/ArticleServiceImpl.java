@@ -4,6 +4,7 @@ import com.wondo.council.domain.Article;
 import com.wondo.council.domain.User;
 import com.wondo.council.dto.article.ArticleDto;
 import com.wondo.council.dto.article.ArticleRequestDto;
+import com.wondo.council.dto.exception.article.PostNotFoundException;
 import com.wondo.council.repository.ArticleRepository;
 import com.wondo.council.service.ArticleService;
 import com.wondo.council.service.UserService;
@@ -45,6 +46,16 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleDto> getArticleList(){
         List<ArticleDto> list = articleRepository.findAll().stream().map(m->ArticleDto.from(m))
                 .collect(Collectors.toList());
+        log.info("게시글 리스트 조회 완료.");
         return list;
+    }
+
+    @Override
+    public ArticleDto getArticle(Long uid) {
+        Article article = articleRepository.findById(uid).orElseThrow(PostNotFoundException::new);
+        article.addViewCount();
+        articleRepository.save(article);
+        log.info("특정 게시글 조회 완료.");
+        return ArticleDto.from(article);
     }
 }

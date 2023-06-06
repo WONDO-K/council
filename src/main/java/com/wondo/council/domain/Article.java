@@ -37,4 +37,8 @@ public class Article {
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_uid")
     private User user;
+
+    public void addViewCount() {
+        this.view +=1;
+    }
 }

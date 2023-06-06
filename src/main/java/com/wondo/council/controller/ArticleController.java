@@ -1,5 +1,6 @@
 package com.wondo.council.controller;
 
+import com.wondo.council.dto.article.ArticleDto;
 import com.wondo.council.dto.article.ArticleRequestDto;
 import com.wondo.council.service.ArticleService;
 import io.swagger.annotations.ApiOperation;
@@ -27,5 +28,12 @@ public class ArticleController {
     @ApiOperation(value = "게시글 리스트 조회",notes = "게시글 리스트를 조회한다.")
     public ResponseEntity<?> getArticleList(){
         return new ResponseEntity<>(articleService.getArticleList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{uid}")
+    @ApiOperation(value = "게시글 조회", notes = "게시글을 조회한다.")
+    public ResponseEntity<ArticleDto> getArticle(@PathVariable Long uid) {
+        return new ResponseEntity<>(articleService.getArticle(uid), HttpStatus.OK);
+
     }
 }

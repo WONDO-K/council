@@ -11,4 +11,6 @@ public interface ArticleService {
     List<ArticleDto> getArticleList();
 
     ArticleDto getArticle(Long uid);
+
+    void deleteArticle(Long uid);
 }

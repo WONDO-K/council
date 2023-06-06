@@ -58,4 +58,10 @@ public class ArticleServiceImpl implements ArticleService {
         log.info("특정 게시글 조회 완료.");
         return ArticleDto.from(article);
     }
+
+    @Override
+    public void deleteArticle(Long uid) {
+        articleRepository.deleteById(uid);
+        log.info("게시글 삭제 완료.");
+    }
 }

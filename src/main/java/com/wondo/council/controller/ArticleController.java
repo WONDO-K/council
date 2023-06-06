@@ -36,4 +36,13 @@ public class ArticleController {
         return new ResponseEntity<>(articleService.getArticle(uid), HttpStatus.OK);
 
     }
+
+    @DeleteMapping("/delete/{uid}")
+    @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다.")
+    public ResponseEntity<?> deleteArticle(
+            @PathVariable @ApiParam(value = "게시글 번호 uid",required = true) Long uid
+    ){
+        articleService.deleteArticle(uid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

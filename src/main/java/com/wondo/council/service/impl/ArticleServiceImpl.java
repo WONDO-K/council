@@ -94,6 +94,7 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleDto> getSortArticleList() {
         List<ArticleDto> sortList = articleRepository.findAllByOrderByViewDesc().stream().map(m->ArticleDto.from(m))
                 .collect(Collectors.toList());
+        log.info("조회순 게시글 리스트 조회 완료.");
         return sortList;
     }
 }

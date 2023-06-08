@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
-    @Query("select coalesce(max (r.ref),0) from Reply r where r.uid = ?1")
-    long findByNvlRef(Long uid);
+    @Query("select coalesce(max(r.ref), 0) from Reply r where r.article.uid = ?1")
+    Long findByNvlRef(Long uid);
 
     @Modifying
     @Query("UPDATE Reply set childNum = childNum + 1 where uid = :uid")

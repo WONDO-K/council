@@ -38,18 +38,18 @@ public class ReplyServiceImpl implements ReplyService {
         // replyUid가 null 이면 댓글 null이 아니면 대댓글 저장
         // 댓글 저장
         if (replyUid == null){
-            System.out.println("null 진입");
-            Reply comments = replyRepository.save(Reply.builder()
-                    .content(replyRequestDto.getContent())
-                    .regDate(LocalDateTime.now().toString())
-                    .user(user)
-                    .article(article)
-                    .ref(replyRef + 1l)
-                    .step(0l)
-                    .refOrder(0l)
-                    .childNum(0l)
-                    .parentNum(0l)
-                    .build());
+                System.out.println("null 진입");
+                Reply comments = replyRepository.save(Reply.builder()
+                        .content(replyRequestDto.getContent())
+                        .regDate(LocalDateTime.now().toString())
+                        .user(user)
+                        .article(article)
+                        .ref(replyRef + 1l)
+                        .step(0l)
+                        .refOrder(0l)
+                        .childNum(0l)
+                        .parentNum(0l)
+                        .build());
             log.info("댓글 저장 완료.");
             return comments;
         } else {

@@ -29,7 +29,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     @Query("update Reply set refOrder = refOrder+1 where ref=?1 and refOrder > ?2")
     void updateRefOrderPlus(Long ref, Long refOrder);
 
-    List<Reply> findAllByArticleUidOrderByRefDescRefOrder(Long uid);
-
     List<Reply> findByParentNum(Long uid);
+
+    List<Reply> findAllByArticleUidOrderByRefDescRefOrder(Long uid);
 }

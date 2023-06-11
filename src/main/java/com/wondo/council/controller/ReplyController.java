@@ -30,17 +30,17 @@ public class ReplyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/{uid}")
-    @ApiOperation(value = "특정 게시글의 댓글 리스트 조회", notes = "게시글에 속한 댓글 리스트를 조회한다.")
-    public ResponseEntity<?> getReplyList(@PathVariable @ApiParam(value = "게시글 번호 uid") Long uid){
-        return new ResponseEntity<>(replyService.getReplyList(uid),HttpStatus.OK);
-    }
-
     @DeleteMapping("/delete/{uid}")
     @ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제한다.")
     public ResponseEntity<?> deleteReply(@PathVariable @ApiParam(value = "댓글 번호 uid",required = true) Long uid){
         Reply reply = replyRepository.findById(uid).orElseThrow(()->new PostNotFoundException());
         replyService.deleteReply(reply);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/{uid}")
+    @ApiOperation(value = "특정 게시글의 댓글 리스트 조회", notes = "게시글에 속한 댓글 리스트를 조회한다.")
+    public ResponseEntity<?> getReplyList(@PathVariable @ApiParam(value = "게시글 번호 uid") Long uid){
+        return new ResponseEntity<>(replyService.getReplyList(uid),HttpStatus.OK);
     }
 }

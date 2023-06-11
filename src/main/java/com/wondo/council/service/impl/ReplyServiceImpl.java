@@ -119,29 +119,6 @@ public class ReplyServiceImpl implements ReplyService {
         return null;
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<ReplyDto> getReplyList(Long uid) {
-        List<ReplyDto> list = replyRepository.findAllByArticleUidOrderByRefDescRefOrder(uid).stream().map(m -> ReplyDto.from(m))
-                .collect(Collectors.toList());
-        log.info("특정 게시물 댓글 리스트 조회 완료.");
-        return list;
-    }
-
-//    @Override
-//    public void deleteReply(Reply reply) {
-//        // 부모 댓글인 경우, 자식 댓글들을 재귀적으로 삭제
-//        if (reply.getParentNum() == 0){
-//            log.info("부모 댓글 삭제 요청");
-//            List<Reply> childReplies = replyRepository.findByParentNum(reply.getUid());
-//            for (Reply childReply : childReplies) {
-//                deleteReply(childReply);
-//            }
-//            log.info("부모 댓글의 자식 댓글 삭제 완료.");
-//        }
-//        replyRepository.delete(reply);
-//        log.info("댓글 삭제 완료.");
-//    }
 
     @Override
     public void deleteReply(Reply reply) {
@@ -188,6 +165,7 @@ public class ReplyServiceImpl implements ReplyService {
             log.info("자식 댓글들이 모두 삭제되었습니다.");
         }
     }
+
     private void updateChildNum(Long parentNum){
         Reply parentReply = replyRepository.findById(parentNum).orElse(null);
         if (parentReply != null){
@@ -197,5 +175,13 @@ public class ReplyServiceImpl implements ReplyService {
             }
             log.info("자식 댓글 수 업데이트 완료.");
         }
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReplyDto> getReplyList(Long uid) {
+        List<ReplyDto> list = replyRepository.findAllByArticleUidOrderByRefDescRefOrder(uid).stream().map(m -> ReplyDto.from(m))
+                .collect(Collectors.toList());
+        log.info("특정 게시물 댓글 리스트 조회 완료.");
+        return list;
     }
 }

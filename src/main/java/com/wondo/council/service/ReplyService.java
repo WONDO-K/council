@@ -9,7 +9,7 @@ import java.util.List;
 public interface ReplyService {
    Reply createReply(Long uid, ReplyRequestDto replyRequestDto);
 
-   List<ReplyDto> getReplyList(Long uid);
-
    void deleteReply(Reply reply);
+
+   List<ReplyDto> getReplyList(Long uid);
 }

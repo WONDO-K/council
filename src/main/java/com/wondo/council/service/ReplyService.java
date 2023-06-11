@@ -10,4 +10,6 @@ public interface ReplyService {
    Reply createReply(Long uid, ReplyRequestDto replyRequestDto);
 
    List<ReplyDto> getReplyList(Long uid);
+
+   void deleteReply(Long uid);
 }

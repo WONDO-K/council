@@ -127,4 +127,10 @@ public class ReplyServiceImpl implements ReplyService {
         log.info("특정 게시물 댓글 리스트 조회 완료.");
         return list;
     }
+
+    @Override
+    public void deleteReply(Long uid) {
+        replyRepository.deleteById(uid);
+        log.info("댓글 삭제 완료.");
+    }
 }

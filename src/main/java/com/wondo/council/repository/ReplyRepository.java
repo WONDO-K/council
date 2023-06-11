@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
@@ -27,4 +28,6 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     @Modifying
     @Query("update Reply set refOrder = refOrder+1 where ref=?1 and refOrder > ?2")
     void updateRefOrderPlus(Long ref, Long refOrder);
+
+    List<Reply> findAllByArticleUidOrderByRefDescRefOrder(Long uid);
 }

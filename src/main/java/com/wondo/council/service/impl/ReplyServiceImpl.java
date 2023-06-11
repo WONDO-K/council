@@ -4,6 +4,7 @@ import com.wondo.council.domain.Article;
 import com.wondo.council.domain.Reply;
 import com.wondo.council.domain.User;
 import com.wondo.council.dto.exception.article.PostNotFoundException;
+import com.wondo.council.dto.reply.ReplyDto;
 import com.wondo.council.dto.reply.ReplyRequestDto;
 import com.wondo.council.repository.ArticleRepository;
 import com.wondo.council.repository.ReplyRepository;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -114,5 +117,14 @@ public class ReplyServiceImpl implements ReplyService {
             return refOrder + 1l;
         }
         return null;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReplyDto> getReplyList(Long uid) {
+        List<ReplyDto> list = replyRepository.findAllByArticleUidOrderByRefDescRefOrder(uid).stream().map(m->ReplyDto.from(m))
+                .collect(Collectors.toList());
+        log.info("특정 게시물 댓글 리스트 조회 완료.");
+        return list;
     }
 }

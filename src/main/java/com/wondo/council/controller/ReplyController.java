@@ -26,4 +26,9 @@ public class ReplyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/{uid}")
+    @ApiOperation(value = "특정 게시글의 댓글 리스트 조회", notes = "게시글에 속한 댓글 리스트를 조회한다.")
+    public ResponseEntity<?> getReplyList(@PathVariable Long uid){
+        return new ResponseEntity<>(replyService.getReplyList(uid),HttpStatus.OK);
+    }
 }

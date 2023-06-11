@@ -30,4 +30,6 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     void updateRefOrderPlus(Long ref, Long refOrder);
 
     List<Reply> findAllByArticleUidOrderByRefDescRefOrder(Long uid);
+
+    List<Reply> findByParentNum(Long uid);
 }

@@ -11,5 +11,5 @@ public interface ReplyService {
 
    List<ReplyDto> getReplyList(Long uid);
 
-   void deleteReply(Long uid);
+   void deleteReply(Reply reply);
 }

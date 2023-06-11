@@ -57,4 +57,7 @@ public class Reply {
     private Article article;
 
 
+    public void setChildNum(long childNum) {
+        this.childNum = childNum;
+    }
 }

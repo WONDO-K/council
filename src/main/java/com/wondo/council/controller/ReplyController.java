@@ -1,6 +1,9 @@
 package com.wondo.council.controller;
 
+import com.wondo.council.domain.Reply;
+import com.wondo.council.dto.exception.article.PostNotFoundException;
 import com.wondo.council.dto.reply.ReplyRequestDto;
+import com.wondo.council.repository.ReplyRepository;
 import com.wondo.council.service.ReplyService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class ReplyController {
 
     private final ReplyService replyService;
+    private final ReplyRepository replyRepository;
 
     @PostMapping("/create")
     @ApiOperation(value = "댓글 작성",notes = "댓글을 작성한다.")
@@ -35,7 +39,8 @@ public class ReplyController {
     @DeleteMapping("/delete/{uid}")
     @ApiOperation(value = "댓글 삭제", notes = "댓글을 삭제한다.")
     public ResponseEntity<?> deleteReply(@PathVariable @ApiParam(value = "댓글 번호 uid",required = true) Long uid){
-        replyService.deleteReply(uid);
+        Reply reply = replyRepository.findById(uid).orElseThrow(()->new PostNotFoundException());
+        replyService.deleteReply(reply);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

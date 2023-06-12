@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,5 +48,26 @@ public class NoticeServiceImpl implements NoticeService {
         }
 
 
+    }
+
+    @Override
+    public void updateNotice(Long uid, NoticeRequestDto noticeRequestDto) {
+        Optional<Notice> notice = noticeRepository.findById(uid);
+        if (notice.isPresent()){
+            String upDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()).toString();
+            if (notice.get().getUser() == userService.getMyInfo()){
+                Notice newNotice = Notice.builder()
+                        .uid(uid)
+                        .title(noticeRequestDto.getTitle())
+                        .content(noticeRequestDto.getContent())
+                        .view(notice.get().getView())
+                        .user(userService.getMyInfo())
+                        .regDate(notice.get().getRegDate())
+                        .upDate(upDate)
+                        .build();
+                noticeRepository.save(newNotice);
+                log.info("공지사항이 수정되었습니다.");
+            }
+        }
     }
 }

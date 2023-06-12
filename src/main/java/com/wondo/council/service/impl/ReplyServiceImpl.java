@@ -6,6 +6,7 @@ import com.wondo.council.domain.User;
 import com.wondo.council.dto.exception.article.PostNotFoundException;
 import com.wondo.council.dto.reply.ReplyDto;
 import com.wondo.council.dto.reply.ReplyRequestDto;
+import com.wondo.council.dto.reply.ReplyUpdateRequestDto;
 import com.wondo.council.repository.ArticleRepository;
 import com.wondo.council.repository.ReplyRepository;
 import com.wondo.council.service.ReplyService;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -183,5 +185,32 @@ public class ReplyServiceImpl implements ReplyService {
                 .collect(Collectors.toList());
         log.info("특정 게시물 댓글 리스트 조회 완료.");
         return list;
+    }
+
+    @Override
+    public void updateReply(Long uid, ReplyUpdateRequestDto replyUpdateRequestDto) {
+        User user = userService.getMyInfo();
+        Optional<Reply> reply = replyRepository.findById(uid);
+        Article article = articleRepository.findById(reply.get().getArticle().getUid()).orElseThrow(()-> new PostNotFoundException());
+
+        if (reply.isPresent()){
+            if (reply.get().getUser() == user){
+                Reply newReply = Reply.builder()
+                        .uid(reply.get().getUid())
+                        .content(replyUpdateRequestDto.getContent())
+                        .regDate(reply.get().getRegDate())
+                        .user(user)
+                        .article(reply.get().getArticle())
+                        .ref(reply.get().getRef())
+                        .step(reply.get().getStep())
+                        .refOrder(reply.get().getRefOrder())
+                        .childNum(reply.get().getChildNum())
+                        .parentNum(reply.get().getParentNum())
+                        .build();
+                replyRepository.save(newReply);
+                log.info("댓글 수정 완료.");
+            }
+        }
+
     }
 }

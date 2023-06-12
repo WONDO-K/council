@@ -3,6 +3,7 @@ package com.wondo.council.controller;
 import com.wondo.council.domain.Reply;
 import com.wondo.council.dto.exception.article.PostNotFoundException;
 import com.wondo.council.dto.reply.ReplyRequestDto;
+import com.wondo.council.dto.reply.ReplyUpdateRequestDto;
 import com.wondo.council.repository.ReplyRepository;
 import com.wondo.council.service.ReplyService;
 import io.swagger.annotations.ApiOperation;
@@ -42,5 +43,15 @@ public class ReplyController {
     @ApiOperation(value = "특정 게시글의 댓글 리스트 조회", notes = "게시글에 속한 댓글 리스트를 조회한다.")
     public ResponseEntity<?> getReplyList(@PathVariable @ApiParam(value = "게시글 번호 uid") Long uid){
         return new ResponseEntity<>(replyService.getReplyList(uid),HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{uid}")
+    @ApiOperation(value = "댓글 수정", notes = "댓글을 수정한다.")
+    public ResponseEntity<?> updateReply(
+            @PathVariable @ApiParam(value = "댓글 번호 uid",required = true) Long uid,
+            @RequestBody @ApiParam(value = "댓글 수정 Dto",required = true) ReplyUpdateRequestDto replyUpdateRequestDto
+    ){
+        replyService.updateReply(uid,replyUpdateRequestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package com.wondo.council.domain;
 
+import com.wondo.council.dto.reply.ReplyUpdateRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -59,5 +60,10 @@ public class Reply {
 
     public void setChildNum(long childNum) {
         this.childNum = childNum;
+    }
+
+    public void setContent(ReplyUpdateRequestDto replyUpdateRequestDto){
+        this.content = replyUpdateRequestDto.getContent();
+
     }
 }

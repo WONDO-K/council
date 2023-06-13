@@ -2,7 +2,6 @@ package com.wondo.council.service.impl;
 
 import com.wondo.council.domain.User;
 import com.wondo.council.domain.enums.Role;
-import com.wondo.council.domain.enums.UserIsMember;
 import com.wondo.council.dto.admin.ApprovalRequestDto;
 import com.wondo.council.dto.exception.user.UserNotFoundException;
 import com.wondo.council.repository.UserRepository;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.security.sasl.AuthenticationException;
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

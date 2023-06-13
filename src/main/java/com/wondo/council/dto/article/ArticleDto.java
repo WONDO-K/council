@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
 
+
 @Getter
 @Builder
 @ApiModel(value = "ArticleResponseDto",description = "게시글 정보 Dto")

@@ -22,6 +22,8 @@ import java.util.List;
 public class SwaggerConfig {
     @Bean
     public Docket postApi(){
+
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("council")
                 .apiInfo(apiInfo())

@@ -1,5 +1,6 @@
 package com.wondo.council.domain;
 
+import com.wondo.council.domain.enums.VoteOption;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,4 +26,7 @@ public class VoteRecord {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vote_uid")
     private Vote vote;
+
+    @Column(name = "vote_option")
+    private VoteOption voteOption;
 }

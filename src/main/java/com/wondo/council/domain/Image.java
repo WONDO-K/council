@@ -21,6 +21,9 @@ public class Image {
     @Column(name = "file_name")
     String fileName;
 
+    @Column(name = "saved_name")
+    String savedName;
+
     @Column(name = "file_path")
     String filePath;
 

@@ -19,7 +19,7 @@ public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="uid")
-    private Long id;
+    private Long uid;
 
     @Column(name = "title")
     private String title;
@@ -33,6 +33,20 @@ public class Vote {
     @Column(name = "closed")
     private boolean closed;
 
+    @Column(name = "yes_count")
+    private int yesCount;
+
+    @Column(name = "no_count")
+    private int noCount;
+
     @OneToMany(mappedBy = "vote", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<VoteRecord> voteRecords;
+
+    public void addYesCount(){
+        this.yesCount+=1;
+    }
+
+    public void addNoCount(){
+        this.noCount+=1;
+    }
 }

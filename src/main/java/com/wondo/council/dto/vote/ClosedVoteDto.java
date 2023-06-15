@@ -1,24 +1,15 @@
 package com.wondo.council.dto.vote;
 
 import com.wondo.council.domain.Vote;
-import com.wondo.council.domain.VoteRecord;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.extern.log4j.Log4j2;
-
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Getter
 @Builder
-@ApiModel(value = "VoteDto",description = "투표 안건 정보 Dto")
-@Log4j2
-public class VoteDto {
+@ApiModel(value = "ClosedVoteDto", description = "종료된 투표 안건 정보 Dto")
+public class ClosedVoteDto {
 
     private String title;
 
@@ -26,14 +17,19 @@ public class VoteDto {
 
     private String imgUrl;
 
+    @ApiModelProperty(value = "찬성 횟수")
+    private int yesCount;
 
-    public static VoteDto from(Vote vote){
-        return VoteDto.builder()
+    @ApiModelProperty(value = "반대 횟수")
+    private int noCount;
+
+    public static ClosedVoteDto from(Vote vote){
+        return ClosedVoteDto.builder()
                 .title(vote.getTitle())
                 .content(vote.getContent())
                 .imgUrl(vote.getImageUrl())
+                .yesCount(vote.getYesCount())
+                .noCount(vote.getNoCount())
                 .build();
     }
-
-
 }

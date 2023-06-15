@@ -44,7 +44,6 @@ public class VoteController {
     public ResponseEntity<?> getVote(
             @PathVariable @ApiParam(value = "투표 안건 번호 uid",required = true) Long uid
     ){
-
         return new ResponseEntity<>(voteService.getVote(uid),HttpStatus.OK);
     }
 }

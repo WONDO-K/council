@@ -10,5 +10,6 @@ public interface VoteService {
 
     void voting(Long uid,VoteOption voteOption);
 
-    VoteDto getVote(Long uid);
+    //VoteDto getVote(Long uid);
+    Object getVote(Long uid);
 }

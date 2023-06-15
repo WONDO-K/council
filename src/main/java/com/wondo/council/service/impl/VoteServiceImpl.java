@@ -96,11 +96,6 @@ public class VoteServiceImpl implements VoteService {
 
     }
 
-//    @Override
-//    public VoteDto getVote(Long uid) {
-//        Optional<Vote> vote = voteRepository.findById(uid);
-//        return VoteDto.from(vote.get());
-//    }
     @Override
     public Object getVote(Long uid) {
         Optional<Vote> vote = voteRepository.findById(uid);

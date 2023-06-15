@@ -1,18 +1,10 @@
 package com.wondo.council.dto.vote;
 
 import com.wondo.council.domain.Vote;
-import com.wondo.council.domain.VoteRecord;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
-
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Getter
 @Builder

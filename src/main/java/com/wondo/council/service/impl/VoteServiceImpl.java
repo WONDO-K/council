@@ -6,6 +6,7 @@ import com.wondo.council.domain.VoteRecord;
 import com.wondo.council.domain.enums.Role;
 import com.wondo.council.domain.enums.VoteOption;
 import com.wondo.council.dto.exception.article.PostNotFoundException;
+import com.wondo.council.dto.vote.VoteDto;
 import com.wondo.council.dto.vote.VoteRequestDto;
 import com.wondo.council.repository.VoteRecordRepository;
 import com.wondo.council.repository.VoteRepository;
@@ -92,5 +93,18 @@ public class VoteServiceImpl implements VoteService {
             throw new AccessDeniedException("투표가 종료된 안건입니다.");
         }
 
+    }
+
+    @Override
+    public VoteDto getVote(Long uid) {
+        Optional<Vote> vote = voteRepository.findById(uid);
+
+        if (vote.get().isClosed() == false){
+            log.info("투표 진행 중인 안건 조회 완료.");
+            return VoteDto.from(vote.get());
+        } else {
+            log.info("종료된 투표 안건 조회 완료.");
+            return VoteDto.closedFrom(vote.get());
+        }
     }
 }

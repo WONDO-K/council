@@ -38,4 +38,13 @@ public class VoteController {
         voteService.voting(uid,voteOption);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/{uid}")
+    @ApiOperation(value = "투표 안건 조회", notes = "투표 안건을 조회한다.")
+    public ResponseEntity<?> getVote(
+            @PathVariable @ApiParam(value = "투표 안건 번호 uid",required = true) Long uid
+    ){
+
+        return new ResponseEntity<>(voteService.getVote(uid),HttpStatus.OK);
+    }
 }

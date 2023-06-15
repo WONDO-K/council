@@ -1,5 +1,6 @@
 package com.wondo.council.dto.vote;
 
+import com.wondo.council.domain.Vote;
 import com.wondo.council.domain.VoteRecord;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -27,7 +28,23 @@ public class VoteDto {
 
     private int noCount;
 
-    @OneToMany(mappedBy = "vote", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<VoteRecord> voteRecords;
+
+    public static VoteDto from(Vote vote){
+        return VoteDto.builder()
+                .title(vote.getTitle())
+                .content(vote.getContent())
+                .imgUrl(vote.getImageUrl())
+                .build();
+    }
+
+    public static VoteDto closedFrom(Vote vote){
+        return VoteDto.builder()
+                .title(vote.getTitle())
+                .content(vote.getContent())
+                .imgUrl(vote.getImageUrl())
+                .yesCount(vote.getYesCount())
+                .noCount(vote.getNoCount())
+                .build();
+    }
 
 }

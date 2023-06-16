@@ -9,6 +9,7 @@ import com.wondo.council.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
+@Log4j2
 public class UserController {
 
     private final UserService userService;
@@ -31,8 +33,16 @@ public class UserController {
         if (result.hasErrors()){
             throw new InvalidParameterException(result);
         } else if (userService.checkId(requestDto.getId())){
+            log.info("중복된 ID가 이미 존재합니다.");
             throw new DuplicateIdException();
         } else if (userService.checkEmail(requestDto.getEmail())){
+            log.info("중복된 Email이 이미 존재합니다.");
+            throw new DuplicateIdException();
+        } else if (userService.checkDong(requestDto.getDong())){
+            log.info("중복된 거주 동이 이미 존재합니다.");
+            throw new DuplicateIdException();
+        } else if (userService.checkHo(requestDto.getHo())) {
+            log.info("중복된 거주 호수가 이미 존재합니다.");
             throw new DuplicateIdException();
         }
         userService.signup(requestDto);

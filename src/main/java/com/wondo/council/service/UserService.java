@@ -15,6 +15,10 @@ public interface UserService {
 
     boolean checkEmail(String email);
 
+    boolean checkDong(int dong);
+
+    boolean checkHo(int ho);
+
     TokenDto doLogin(LoginRequestDto requestDto);
 
     User getMyInfo();

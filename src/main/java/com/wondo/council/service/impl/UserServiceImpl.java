@@ -86,8 +86,24 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public boolean checkEmail(String email){
-        // nickname으로 검색후 존재 유무를 bool값으로 전달
+        // email로 검색후 존재 유무를 bool값으로 전달
         Optional<User> entity = userRepository.findByEmail(email);
+        return entity.isPresent();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean checkDong(int dong){
+        // dong로 검색후 존재 유무를 bool값으로 전달
+        Optional<User> entity = userRepository.findByDong(dong);
+        return entity.isPresent();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean checkHo(int ho){
+        // dong로 검색후 존재 유무를 bool값으로 전달
+        Optional<User> entity = userRepository.findByHo(ho);
         return entity.isPresent();
     }
 

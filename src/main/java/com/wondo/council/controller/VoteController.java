@@ -46,4 +46,14 @@ public class VoteController {
     ){
         return new ResponseEntity<>(voteService.getVote(uid),HttpStatus.OK);
     }
+
+    @PostMapping("/close/{uid}")
+    @ApiOperation(value = "투표 종료 처리", notes = "투표를 종료 처리한다.")
+    public ResponseEntity<?> closingVote(
+            @PathVariable @ApiParam(value = "투표 안건 번호 uid",required = true) Long uid,
+            @RequestParam @ApiParam(value = "투표 진행/종료 처리",required = true, allowableValues = "true,false") boolean isClosed
+    ){
+        voteService.closingVote(uid,isClosed);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

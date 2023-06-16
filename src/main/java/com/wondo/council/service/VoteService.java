@@ -10,4 +10,6 @@ public interface VoteService {
     void voting(Long uid,VoteOption voteOption);
 
     Object getVote(Long uid);
+
+    void closingVote(Long uid, boolean isClosed);
 }

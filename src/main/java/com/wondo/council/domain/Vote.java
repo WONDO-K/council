@@ -49,4 +49,8 @@ public class Vote {
     public void addNoCount(){
         this.noCount+=1;
     }
+
+    public void setClosed(boolean isClosed){
+        this.closed = isClosed;
+    }
 }

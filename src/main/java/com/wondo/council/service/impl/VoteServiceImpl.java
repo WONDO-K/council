@@ -109,4 +109,21 @@ public class VoteServiceImpl implements VoteService {
         }
 }
 
+    @Override
+    public void closingVote(Long uid, boolean isClosed) {
+        User user = userService.getMyInfo();
+        Optional<Vote> vote = voteRepository.findById(uid);
+        if (user.getRole().equals(Role.ADMIN)){
+            vote.get().setClosed(isClosed);
+            voteRepository.save(vote.get());
+            if(isClosed == true){
+                log.info("투표 종료 처리 완료.");
+            } else {
+                log.info("투표 진행 처리 완료.");
+            }
+        } else {
+            log.info("관리자 권한으로만 처리 가능합니다.");
+        }
+    }
+
 }

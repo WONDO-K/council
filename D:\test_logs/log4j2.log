@@ -1,0 +1,43 @@
+2023-06-23 10:04:08  INFO [org.hibernate.validator.internal.util.Version] HV000001: Hibernate Validator 6.2.5.Final
+2023-06-23 10:04:08  INFO [com.wondo.council.CouncilApplication] Starting CouncilApplication using Java 17.0.6 on choedonghoui-MacBookAir.local with PID 10352 (/Users/choidongho/공부/council/council/build/classes/java/main started by choidongho in /Users/choidongho/공부/council/council)
+2023-06-23 10:04:08  INFO [com.wondo.council.CouncilApplication] No active profile set, falling back to 1 default profile: "default"
+2023-06-23 10:04:08  INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-06-23 10:04:08  INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-06-23 10:04:09  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-06-23 10:04:09  INFO [org.springframework.data.repository.config.RepositoryConfigurationDelegate] Finished Spring Data repository scanning in 26 ms. Found 7 JPA repository interfaces.
+2023-06-23 10:04:09  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat initialized with port(s): 8080 (http)
+2023-06-23 10:04:09  INFO [org.apache.coyote.http11.Http11NioProtocol] Initializing ProtocolHandler ["http-nio-8080"]
+2023-06-23 10:04:09  INFO [org.apache.catalina.core.StandardService] Starting service [Tomcat]
+2023-06-23 10:04:09  INFO [org.apache.catalina.core.StandardEngine] Starting Servlet engine: [Apache Tomcat/9.0.75]
+2023-06-23 10:04:09  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring embedded WebApplicationContext
+2023-06-23 10:04:09  INFO [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext] Root WebApplicationContext: initialization completed in 812 ms
+2023-06-23 10:04:09  INFO [org.hibernate.jpa.internal.util.LogHelper] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-06-23 10:04:09  INFO [org.hibernate.Version] HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-06-23 10:04:09  INFO [org.hibernate.annotations.common.Version] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-06-23 10:04:09  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Starting...
+2023-06-23 10:04:10  INFO [com.zaxxer.hikari.HikariDataSource] HikariPool-1 - Start completed.
+2023-06-23 10:04:10  INFO [org.hibernate.dialect.Dialect] HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2023-06-23 10:04:10  INFO [org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-23 10:04:10  INFO [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-06-23 10:04:10  WARN [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-06-23 10:04:11  WARN [org.springframework.security.config.annotation.web.builders.WebSecurity] You are asking Spring Security to ignore Ant [pattern='/h2-console/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-06-23 10:04:11  INFO [org.springframework.security.web.DefaultSecurityFilterChain] Will not secure Ant [pattern='/h2-console/**']
+2023-06-23 10:04:11  WARN [org.springframework.security.config.annotation.web.builders.WebSecurity] You are asking Spring Security to ignore Ant [pattern='/v3/api-docs']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-06-23 10:04:11  INFO [org.springframework.security.web.DefaultSecurityFilterChain] Will not secure Ant [pattern='/v3/api-docs']
+2023-06-23 10:04:11  WARN [org.springframework.security.config.annotation.web.builders.WebSecurity] You are asking Spring Security to ignore Ant [pattern='/v3/api-docs/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-06-23 10:04:11  INFO [org.springframework.security.web.DefaultSecurityFilterChain] Will not secure Ant [pattern='/v3/api-docs/**']
+2023-06-23 10:04:11  WARN [org.springframework.security.config.annotation.web.builders.WebSecurity] You are asking Spring Security to ignore Ant [pattern='/swagger-ui.html']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-06-23 10:04:11  INFO [org.springframework.security.web.DefaultSecurityFilterChain] Will not secure Ant [pattern='/swagger-ui.html']
+2023-06-23 10:04:11  WARN [org.springframework.security.config.annotation.web.builders.WebSecurity] You are asking Spring Security to ignore Ant [pattern='/swagger-ui/**']. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2023-06-23 10:04:11  INFO [org.springframework.security.web.DefaultSecurityFilterChain] Will not secure Ant [pattern='/swagger-ui/**']
+2023-06-23 10:04:11  INFO [org.springframework.security.web.DefaultSecurityFilterChain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@376a908f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5cc957f7, org.springframework.security.web.context.SecurityContextPersistenceFilter@1cba335, org.springframework.security.web.header.HeaderWriterFilter@293be78a, org.springframework.web.filter.CorsFilter@495984a7, org.springframework.security.web.authentication.logout.LogoutFilter@1fde46ff, com.wondo.council.jwt.JwtFilter@7b5360e3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@58a04eeb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3ceb36d7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@18de69ee, org.springframework.security.web.session.SessionManagementFilter@5a346b5c, org.springframework.security.web.access.ExceptionTranslationFilter@39af3e9, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@60600f1c]
+2023-06-23 10:04:11  INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer] LiveReload server is running on port 35729
+2023-06-23 10:04:11  WARN [org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration] Cannot find template location: classpath:/templates/ (please add some templates, check your Mustache configuration, or set spring.mustache.check-template-location=false)
+2023-06-23 10:04:11  INFO [org.apache.coyote.http11.Http11NioProtocol] Starting ProtocolHandler ["http-nio-8080"]
+2023-06-23 10:04:11  INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] Tomcat started on port(s): 8080 (http) with context path ''
+2023-06-23 10:04:11  INFO [com.wondo.council.CouncilApplication] Started CouncilApplication in 2.739 seconds (JVM running for 3.234)
+2023-06-23 10:04:38  INFO [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-23 10:04:38  INFO [org.springframework.web.servlet.DispatcherServlet] Initializing Servlet 'dispatcherServlet'
+2023-06-23 10:04:38  INFO [org.springframework.web.servlet.DispatcherServlet] Completed initialization in 1 ms
+2023-06-23 10:05:30  INFO [com.wondo.council.service.impl.UserServiceImpl] 가입 승인 확인
+2023-06-23 10:05:30  INFO [com.wondo.council.service.impl.UserServiceImpl] authentication : UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=wondok95, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, credentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[USER]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[USER]]

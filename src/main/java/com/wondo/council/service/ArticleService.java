@@ -20,4 +20,6 @@ public interface ArticleService {
     List<ArticleDto> getSortArticleList();
 
     List<ArticleDto> getArticleListByUsername(String nickname);
+
+    List<ArticleDto> getMyArticleList();
 }

@@ -1,6 +1,7 @@
 package com.wondo.council.repository;
 
 import com.wondo.council.domain.Article;
+import com.wondo.council.domain.User;
 import com.wondo.council.dto.article.ArticleDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,4 +12,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findAllByOrderByViewDesc();
 
     List<Article> findAllByUserNickname(String nickname);
+
+    List<Article> findAllByUser(User user);
 }

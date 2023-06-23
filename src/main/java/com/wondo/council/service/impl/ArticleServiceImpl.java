@@ -107,4 +107,14 @@ public class ArticleServiceImpl implements ArticleService {
         log.info("닉네임으로 게시글 리스트 검색 완료.");
         return list;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ArticleDto> getMyArticleList() {
+        User user = userService.getMyInfo();
+        List<ArticleDto> list = articleRepository.findAllByUser(user).stream().map(m->ArticleDto.from(m))
+                .collect(Collectors.toList());
+        log.info("내가 작성한 게시글 리스트 검색 완료.");
+        return list;
+    }
 }

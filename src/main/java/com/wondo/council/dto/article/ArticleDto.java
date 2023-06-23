@@ -12,7 +12,7 @@ import lombok.Getter;
 public class ArticleDto {
     private Long uid;
     private String title;
-    private String contetn;
+    private String content;
     private String date;
     private int view;
     private String nickname;
@@ -27,7 +27,7 @@ public class ArticleDto {
         return ArticleDto.builder()
                 .uid(article.getUid())
                 .title(article.getTitle())
-                .contetn(article.getContent())
+                .content(article.getContent())
                 .date(theDate)
                 .view(article.getView())
                 .nickname(article.getUser().getNickname())

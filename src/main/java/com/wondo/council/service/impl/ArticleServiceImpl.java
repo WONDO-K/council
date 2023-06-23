@@ -98,4 +98,13 @@ public class ArticleServiceImpl implements ArticleService {
         log.info("조회순 게시글 리스트 조회 완료.");
         return sortList;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ArticleDto> getArticleListByUsername(String nickname) {
+        List<ArticleDto> list = articleRepository.findAllByUserNickname(nickname).stream().map(m->ArticleDto.from(m))
+                .collect(Collectors.toList());
+        log.info("닉네임으로 게시글 리스트 검색 완료.");
+        return list;
+    }
 }

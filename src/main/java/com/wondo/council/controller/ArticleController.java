@@ -61,4 +61,12 @@ public class ArticleController {
         articleService.updateArticle(uid,articleRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/any/articleList/{nickname}")
+    @ApiOperation(value = "작성자 검색 게시글 리스트",notes = "검색한 작성자가 작성한 게시글을 조회한다.")
+    public ResponseEntity<?> getArticleListByUsername(
+            @PathVariable @ApiParam(value = "검색할 유저 닉네임",required = true) String nickname
+    ){
+        return new ResponseEntity<>(articleService.getArticleListByUsername(nickname),HttpStatus.OK);
+    }
 }

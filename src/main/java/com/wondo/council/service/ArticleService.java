@@ -1,5 +1,6 @@
 package com.wondo.council.service;
 
+import com.wondo.council.domain.Article;
 import com.wondo.council.dto.article.ArticleDto;
 import com.wondo.council.dto.article.ArticleRequestDto;
 
@@ -17,4 +18,6 @@ public interface ArticleService {
     void updateArticle(Long uid, ArticleRequestDto articleRequestDto);
 
     List<ArticleDto> getSortArticleList();
+
+    List<ArticleDto> getArticleListByUsername(String nickname);
 }

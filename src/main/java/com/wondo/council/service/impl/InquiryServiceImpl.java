@@ -18,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -85,5 +87,13 @@ public class InquiryServiceImpl implements InquiryService {
                 throw new AccessDeniedException("문의글 작성자가 아닙니다.");
             }
         }
+    }
+
+    @Override
+    public List<InquiryDto> getInquiryList() {
+        List<InquiryDto> list = inquiryRepository.findAll().stream().map(m->InquiryDto.from(m))
+                .collect(Collectors.toList());
+        log.info("문의 리스트 조회 완료.");
+        return list;
     }
 }

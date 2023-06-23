@@ -39,8 +39,8 @@ public class Inquiry {
     @JoinColumn(name = "user_uid")
     private User user;
 
-//    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<Reply> replies;
+//    @OneToMany(mappedBy = "inquiry", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<InquiryReply> replies;
 
     public void addViewCount() {
         this.view +=1;

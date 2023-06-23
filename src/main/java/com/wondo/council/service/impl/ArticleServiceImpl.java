@@ -82,6 +82,7 @@ public class ArticleServiceImpl implements ArticleService {
                         .view(article.get().getView())
                         .user(userService.getMyInfo())
                         .upDate(upDate)
+                        .regDate(article.get().getRegDate())
                         .build();
                 articleRepository.save(newArticle);
                 log.info("게시글 수정이 완료되었습니다.");

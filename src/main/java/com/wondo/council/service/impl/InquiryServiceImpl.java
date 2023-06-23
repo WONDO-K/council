@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,8 +49,8 @@ public class InquiryServiceImpl implements InquiryService {
     public InquiryDto getInquiry(Long uid) {
         User user = userService.getMyInfo();
         Inquiry inquiry = inquiryRepository.findById(uid).orElseThrow(PostNotFoundException::new);
-        // 게시글 작성자 혹은 관리자만 조회 가능
-        if (inquiry.getUser()==user || user.getRole().equals(Role.ADMIN)){
+        // 문의글 작성자 혹은 관리자만 조회 가능
+        if (inquiry.getUser() == user || user.getRole().equals(Role.ADMIN)) {
             inquiry.addViewCount();
             inquiryRepository.save(inquiry);
             log.info("문의글 조회 완료");
@@ -57,6 +58,32 @@ public class InquiryServiceImpl implements InquiryService {
         } else {
             log.info("작성자가 아니므로 접근 권한이 없습니다.");
             throw new AccessDeniedException("작성자가 아니므로 접근 권한이 없습니다.");
+        }
+    }
+
+    @Override
+    public void updateInquiry(Long uid, ArticleRequestDto inquiryRequestDto) {
+        User user = userService.getMyInfo();
+
+        Optional<Inquiry> inquiry = inquiryRepository.findById(uid);
+        if (inquiry.isPresent()) {
+            String upDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()).toString();
+            if (inquiry.get().getUser() == userService.getMyInfo()) {
+                Inquiry newInquiry = Inquiry.builder()
+                        .uid(uid)
+                        .title(inquiryRequestDto.getTitle())
+                        .content(inquiryRequestDto.getContent())
+                        .view(inquiry.get().getView())
+                        .user(userService.getMyInfo())
+                        .regDate(inquiry.get().getRegDate())
+                        .upDate(upDate)
+                        .build();
+                inquiryRepository.save(newInquiry);
+                log.info("문의글 수정이 완료되었습니다.");
+            } else {
+                log.info("문의글 작성자가 아닙니다.");
+                throw new AccessDeniedException("문의글 작성자가 아닙니다.");
+            }
         }
     }
 }

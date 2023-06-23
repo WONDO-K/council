@@ -26,10 +26,19 @@ public class InquiryController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/{uid}")
-    @ApiOperation(value = "게시글 조회", notes = "게시글을 조회한다.")
+    @ApiOperation(value = "문의글 조회", notes = "문의글을 조회한다.")
     public ResponseEntity<InquiryDto> getInquiry(
             @PathVariable Long uid
     ){
         return new ResponseEntity<>(inquiryService.getInquiry(uid),HttpStatus.OK);
+    }
+    @PutMapping("update/{uid}")
+    @ApiOperation(value = "문의글 수정",notes = "문의글을 수정한다.")
+    public ResponseEntity<?> updateInquiry(
+            @PathVariable @ApiParam(value = "문의글 번호 uid",required = true) Long uid,
+            @RequestBody @ApiParam(value = "문의글 수정 Dto",required = true) ArticleRequestDto inquiryRequestDto
+    ){
+        inquiryService.updateInquiry(uid,inquiryRequestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

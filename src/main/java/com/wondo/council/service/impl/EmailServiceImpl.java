@@ -7,18 +7,25 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import com.wondo.council.service.EmailService;
+import com.wondo.council.util.RedisUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 @Log4j2
 public class EmailServiceImpl implements EmailService {
 
-    @Autowired
-    JavaMailSender emailSender;
+
+    private final JavaMailSender javaMailSender;
+
+    private final RedisUtil redisUtil;
 
     // 메일로 전송되는 인증번호
     public static final String ePw = createKey();
@@ -27,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
     private MimeMessage createMessage(String to)throws Exception{
         log.info("보내는 대상 : "+ to);
         log.info("인증 번호 : " + ePw);
-        MimeMessage  message = emailSender.createMimeMessage();
+        MimeMessage  message = javaMailSender.createMimeMessage();
 
         message.addRecipients(RecipientType.TO, to);//보내는 대상
         message.setSubject("이메일 인증 테스트");//제목
@@ -36,7 +43,7 @@ public class EmailServiceImpl implements EmailService {
         msgg+= "<div style='margin:20px;'>";
         msgg+= "<h1> 안녕하세요 행복주택 온라인 반상회입니다. </h1>";
         msgg+= "<br>";
-        msgg+= "<p>아래 코드를 복사해 입력해주세요<p>";
+        msgg+= "<p>아래 코드를 입력란에 정확히 입력해주세요<p>";
         msgg+= "<br>";
         msgg+= "<p>감사합니다.<p>";
         msgg+= "<br>";
@@ -77,18 +84,33 @@ public class EmailServiceImpl implements EmailService {
         }
         return key.toString();
     }
-
     @Override
-    public String sendSimpleMessage(String to)throws Exception {
+    public String sendSimpleMessage(String to) throws Exception {
         MimeMessage message = createMessage(to);
-        try{//예외처리
-            emailSender.send(message);
-            log.info("emailSender 작동");
-
-        }catch(MailException es){
+        try {
+            redisUtil.setDataExpire(ePw, to, 60 * 1L); // 유효시간 1분
+            javaMailSender.send(message); // 메일 발송
+        } catch (MailException es) {
             es.printStackTrace();
             throw new IllegalArgumentException();
         }
-        return ePw;
+        return ePw; // 메일로 보냈던 인증 코드를 서버로 리턴
     }
+    @Override
+    public Boolean verifyEmail(String key) throws ChangeSetPersister.NotFoundException {
+        String memberEmail = redisUtil.getData(key);
+        if (memberEmail == null) {
+            throw new ChangeSetPersister.NotFoundException();
+        }
+        redisUtil.deleteData(key);
+        log.info("인증코드 : " + key + "가 유효시간 1분 만료 혹은 인증되어 삭제됩니다.");
+        if (key.equals(ePw)){
+            log.info("인증 번호가 일치합니다.");
+            return true;
+        }else {
+            log.info("인증 번호가 일치하지 않습니다.");
+            return false;
+        }
+    }
+
 }

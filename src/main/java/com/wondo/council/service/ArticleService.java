@@ -22,4 +22,6 @@ public interface ArticleService {
     List<ArticleDto> getArticleListByUsername(String nickname);
 
     List<ArticleDto> getMyArticleList();
+
+    List<ArticleDto> getArticleListByTitle(String title);
 }

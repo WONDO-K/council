@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -73,5 +74,13 @@ public class ArticleController {
     @ApiOperation(value = "본인 게시글 리스트 조회", notes = "본인이 작성한 게시글의 리스트를 조회한다.")
     public ResponseEntity<?> getMyArticleList(){
         return new ResponseEntity<>(articleService.getMyArticleList(),HttpStatus.OK);
+    }
+
+    @GetMapping("/articleListByTitle/{title}")
+    @ApiOperation(value = "제목으로 게시글 리스트 검색", notes = "제목으로 게시글 리스트를 검색한다.")
+    public ResponseEntity<?> getArticleListByTitle(
+            @PathVariable @ApiParam(value = "검색할 제목",required = true) String title
+    ){
+        return new ResponseEntity<>(articleService.getArticleListByTitle(title),HttpStatus.OK);
     }
 }

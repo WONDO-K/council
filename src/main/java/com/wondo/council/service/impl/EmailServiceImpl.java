@@ -20,8 +20,10 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     JavaMailSender emailSender;
 
+    // 메일로 전송되는 인증번호
     public static final String ePw = createKey();
 
+    // 인증 번호를 담고 있는 메일을 전송하는 기능
     private MimeMessage createMessage(String to)throws Exception{
         log.info("보내는 대상 : "+ to);
         log.info("인증 번호 : " + ePw);
@@ -50,6 +52,7 @@ public class EmailServiceImpl implements EmailService {
         return message;
     }
 
+    // 메일로 전송할 인증번호 생성
     public static String createKey() {
         StringBuffer key = new StringBuffer();
         Random rnd = new Random();
@@ -74,6 +77,7 @@ public class EmailServiceImpl implements EmailService {
         }
         return key.toString();
     }
+
     @Override
     public String sendSimpleMessage(String to)throws Exception {
         MimeMessage message = createMessage(to);

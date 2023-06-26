@@ -117,4 +117,13 @@ public class ArticleServiceImpl implements ArticleService {
         log.info("내가 작성한 게시글 리스트 검색 완료.");
         return list;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ArticleDto> getArticleListByTitle(String title) {
+        List<ArticleDto> list = articleRepository.findAllByTitleContainingIgnoreCase(title).stream().map(m->ArticleDto.from(m))
+                .collect(Collectors.toList());
+        log.info("검색한 키워드와 일치하거나 포함하는 제목의 게시글 리스트 조회");
+        return list;
+    }
 }

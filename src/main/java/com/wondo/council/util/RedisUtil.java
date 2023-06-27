@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 
@@ -13,6 +14,7 @@ public class RedisUtil { // Redis의 기본적인 CRUD
     private final StringRedisTemplate template;
 
     // key를 통해 value 리턴
+    @Transactional(readOnly = true)
     public String getData(String key) {
         ValueOperations<String, String> valueOperations = template.opsForValue();
         return valueOperations.get(key);

@@ -22,10 +22,12 @@ public class VoteController {
     @PostMapping("/create")
     @ApiOperation(value = "투표 안건 생성", notes = "투표 안건을 생성한다.")
     public ResponseEntity<?> createVote(
-            @ModelAttribute @ApiParam(value = "투표 안건 생성 Dto",required = true) VoteRequestDto voteReqeustDto,
+            // @RequstBody 사용시 415에러가 발생한다.
+            // 이미지를 삽입하지 않는 경우의 처리를 위해 @ModelAttribute를 사용헸다.
+            @ModelAttribute @ApiParam(value = "투표 안건 생성 Dto",required = true) VoteRequestDto voteRequestDto,
             @RequestPart @ApiParam(value = "이미지", required = false) MultipartFile imageFile
             ){
-        voteService.createVote(voteReqeustDto,imageFile);
+        voteService.createVote(voteRequestDto,imageFile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

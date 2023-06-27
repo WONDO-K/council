@@ -31,7 +31,7 @@ public class InquiryController {
     @GetMapping("/{uid}")
     @ApiOperation(value = "문의글 조회", notes = "문의글을 조회한다.")
     public ResponseEntity<InquiryDto> getInquiry(
-            @PathVariable Long uid
+            @PathVariable @ApiParam(value = "문의글 번호 uid",required = true) Long uid
     ){
         return new ResponseEntity<>(inquiryService.getInquiry(uid),HttpStatus.OK);
     }

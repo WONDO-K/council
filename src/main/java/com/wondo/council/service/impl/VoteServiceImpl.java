@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -48,6 +50,7 @@ public class VoteServiceImpl implements VoteService {
             uploadedFilePath = fileUploadService.uploadFile(imageFile);
         }
         User admin = userService.getMyInfo();
+        String regDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()).toString();
 
         if (admin.getRole().equals(Role.ADMIN)){
             Vote vote = Vote.builder()
@@ -55,8 +58,10 @@ public class VoteServiceImpl implements VoteService {
                     .content(voteRequestDto.getContent())
                     .imageUrl(uploadedFilePath)
                     .closed(false)
+                    .regDate(regDate)
                     .yesCount(0)
                     .noCount(0)
+                    .user(admin)
                     .build();
             voteRepository.save(vote);
             log.info("투표 안건 생성 완료 : {}", voteRequestDto.getTitle());

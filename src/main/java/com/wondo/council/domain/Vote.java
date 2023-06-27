@@ -30,6 +30,12 @@ public class Vote {
     @Column(name = "imageUrl")
     private String imageUrl;
 
+    @Column(name = "reg_date")
+    private String regDate;
+
+    @Column(name = "up_date")
+    private String upDate;
+
     @Column(name = "closed")
     private boolean closed;
 
@@ -38,6 +44,10 @@ public class Vote {
 
     @Column(name = "no_count")
     private int noCount;
+
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_uid")
+    private User user;
 
     @OneToMany(mappedBy = "vote", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<VoteRecord> voteRecords;

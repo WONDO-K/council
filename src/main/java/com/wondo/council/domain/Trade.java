@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,8 +32,12 @@ public class Trade {
     @Column(name = "price")
     private int price;
 
+    @ElementCollection
+    // imageUrls 필드를 컬렉션으로 매핑하고, 각 요소를 imageUrl 컬럼으로 저장한다는 의미
+    // List<String> 타입의 imageUrls 필드는 별도의 테이블에 저장되게 된다.
+    @OrderColumn(name = "image_order") // image_order라는 별도의 컬럼을 만들어 이미지의 순서를 보장한다.
     @Column(name = "imageUrl")
-    private String imageUrl;
+    private List<String> imageUrls;
 
     @Column(name = "reg_date")
     private String regDate;
@@ -55,5 +60,9 @@ public class Trade {
 
     public void addViewCount() {
         this.view +=1;
+    }
+
+    public void setImageUrls(List<String> uploadedFilePaths) {
+        this.imageUrls = uploadedFilePaths;
     }
 }

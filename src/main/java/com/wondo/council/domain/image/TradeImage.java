@@ -1,5 +1,6 @@
-package com.wondo.council.domain;
+package com.wondo.council.domain.image;
 
+import com.wondo.council.domain.Trade;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,9 +11,8 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="images")
-public class Image {
-
+@Table(name="trade_images")
+public class TradeImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="uid")
@@ -29,5 +29,13 @@ public class Image {
 
     @Column(name = "file_size")
     Long fileSize;
+
+    @Column(name = "delete_yn")
+    private Boolean delete_yn;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trade_uid")
+    private Trade trade;
+
 
 }

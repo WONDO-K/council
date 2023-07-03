@@ -7,9 +7,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/trade")
@@ -18,14 +21,14 @@ public class TradeController {
 
     private final TradeService tradeService;
 
-    @PostMapping("/create")
+    @PostMapping(value = "/create",
+                consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "거래 게시글 생성", notes = "거래 게시글을 생성한다.")
     public ResponseEntity<?> createTrade(
             @ModelAttribute @ApiParam(value = "거래 게시글 생성 Dto") TradeRequestDto tradeRequestDto,
-            @RequestPart @ApiParam(value = "이미지", required = false) MultipartFile imageFile,
-            @RequestParam @ApiParam(value = "카테고리",required = true)TradeCategory tradeCategory
-            ) {
-        tradeService.createTrade(tradeRequestDto, imageFile,tradeCategory);
+            @RequestPart @ApiParam(value = "거래 이미지", required = false) MultipartFile[] imageFiles
+    ) {
+        tradeService.createTrade(tradeRequestDto, imageFiles);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

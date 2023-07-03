@@ -11,7 +11,7 @@ import com.wondo.council.dto.vote.VoteDto;
 import com.wondo.council.dto.vote.VoteRequestDto;
 import com.wondo.council.repository.VoteRecordRepository;
 import com.wondo.council.repository.VoteRepository;
-import com.wondo.council.service.FileUploadService;
+import com.wondo.council.service.FileUpload.VoteFileUploadService;
 import com.wondo.council.service.UserService;
 import com.wondo.council.service.VoteRecordService;
 import com.wondo.council.service.VoteService;
@@ -33,7 +33,7 @@ import java.util.Optional;
 public class VoteServiceImpl implements VoteService {
 
     private final VoteRepository voteRepository;
-    private final FileUploadService fileUploadService;
+    private final VoteFileUploadService voteFileUploadService;
     private final UserService userService;
 
     private final VoteRecordService voteRecordService;
@@ -47,7 +47,7 @@ public class VoteServiceImpl implements VoteService {
         if (imageFile.isEmpty()){
             uploadedFilePath = null;
         } else {
-            uploadedFilePath = fileUploadService.uploadFile(imageFile);
+            uploadedFilePath = voteFileUploadService.uploadFile(imageFile);
         }
         User admin = userService.getMyInfo();
         String regDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()).toString();
@@ -64,6 +64,7 @@ public class VoteServiceImpl implements VoteService {
                     .user(admin)
                     .build();
             voteRepository.save(vote);
+            Long belong_uid = vote.getUid();
             log.info("투표 안건 생성 완료 : {}", voteRequestDto.getTitle());
         } else {
             log.info("관리자 권한으로만 투표 안건을 생성할 수 있습니다.");

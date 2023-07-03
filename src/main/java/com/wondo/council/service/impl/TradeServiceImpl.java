@@ -2,13 +2,10 @@ package com.wondo.council.service.impl;
 
 import com.wondo.council.domain.Trade;
 import com.wondo.council.domain.User;
-import com.wondo.council.domain.enums.TradeCategory;
 import com.wondo.council.domain.enums.TradeStatus;
 import com.wondo.council.dto.trade.TradeRequestDto;
 import com.wondo.council.repository.TradeRepository;
-
 import com.wondo.council.service.FileUpload.TradeFileUploadService;
-import com.wondo.council.service.FileUpload.VoteFileUploadService;
 import com.wondo.council.service.TradeService;
 import com.wondo.council.service.UserService;
 import lombok.RequiredArgsConstructor;

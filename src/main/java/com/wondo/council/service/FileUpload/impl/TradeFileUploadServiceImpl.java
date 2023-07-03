@@ -2,9 +2,7 @@ package com.wondo.council.service.FileUpload.impl;
 
 import com.wondo.council.domain.Trade;
 import com.wondo.council.domain.image.TradeImage;
-import com.wondo.council.domain.image.VoteImage;
 import com.wondo.council.repository.TradeImageRepository;
-import com.wondo.council.repository.VoteImageRepository;
 import com.wondo.council.service.FileUpload.TradeFileUploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

@@ -28,4 +28,13 @@ public class TradeController {
         tradeService.createTrade(tradeRequestDto, imageFiles);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping(value = "/like")
+    @ApiOperation(value = "거래 게시글 찜",notes = "거래 게시글을 찜한다.")
+    public ResponseEntity<?> likes(
+            @RequestParam @ApiParam(value = "찜할 거래 게시글 번호 uid",required = true) Long tradeUid
+    ){
+        tradeService.likes(tradeUid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

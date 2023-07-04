@@ -1,9 +1,12 @@
 package com.wondo.council.service.impl;
 
 import com.wondo.council.domain.Trade;
+import com.wondo.council.domain.TradeLike;
 import com.wondo.council.domain.User;
 import com.wondo.council.domain.enums.TradeStatus;
+import com.wondo.council.dto.exception.article.PostNotFoundException;
 import com.wondo.council.dto.trade.TradeRequestDto;
+import com.wondo.council.repository.TradeLikeRepository;
 import com.wondo.council.repository.TradeRepository;
 import com.wondo.council.service.FileUpload.TradeFileUploadService;
 import com.wondo.council.service.TradeService;
@@ -18,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +30,7 @@ import java.util.List;
 public class TradeServiceImpl implements TradeService {
 
     private final TradeRepository tradeRepository;
+    private final TradeLikeRepository tradeLikeRepository;
     private final TradeFileUploadService tradeFileUploadService;
     private final UserService userService;
 
@@ -63,5 +68,25 @@ public class TradeServiceImpl implements TradeService {
         tradeRepository.save(trade);
 
         log.info("거래 게시물 생성 완료.");
+    }
+
+    @Override
+    public void likes(Long tradeUid) {
+        User user = userService.getMyInfo();
+        String date = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()).toString();
+        Optional<Trade> trade = tradeRepository.findById(tradeUid);
+
+        if(trade.get()!=null){
+            TradeLike tradeLike = TradeLike.builder()
+                    .user(user)
+                    .trade(trade.get())
+                    .date(date)
+                    .build();
+            tradeLikeRepository.save(tradeLike);
+        }else {
+            log.info("게시글이 존재 하지 않습니다.");
+            throw new PostNotFoundException();
+        }
+
     }
 }

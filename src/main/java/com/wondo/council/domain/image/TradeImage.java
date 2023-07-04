@@ -33,7 +33,7 @@ public class TradeImage {
     @Column(name = "delete_yn")
     private Boolean delete_yn;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Trade.class,fetch = FetchType.LAZY)
     @JoinColumn(name = "trade_uid")
     private Trade trade;
 

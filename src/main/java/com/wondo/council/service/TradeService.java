@@ -5,4 +5,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface TradeService {
     void createTrade(TradeRequestDto tradeRequestDto, MultipartFile[] imageFilesimageFiles);
+
+    void likes(Long tradeUid);
 }

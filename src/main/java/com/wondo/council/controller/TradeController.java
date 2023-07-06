@@ -37,4 +37,12 @@ public class TradeController {
         tradeService.likes(tradeUid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(value = "/{uid}")
+    @ApiOperation(value = "거래 게시글 조회", notes = "특정 거래 게시글을 조회한다.")
+    public ResponseEntity<?> getTrade(
+            @PathVariable @ApiParam(value = "조회할 특정 거래 게시글 번호 uid",required = true) Long uid
+    ){
+        return new ResponseEntity<>(tradeService.getTrade(uid),HttpStatus.OK);
+    }
 }

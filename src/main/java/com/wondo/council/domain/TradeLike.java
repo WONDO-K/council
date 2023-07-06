@@ -29,7 +29,6 @@ public class TradeLike {
     @JoinColumn(name = "user_uid")
     private User user;
 
-
     @Column(name = "date")
     private String date;
 

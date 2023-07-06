@@ -57,6 +57,9 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reply> replies;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<TradeLike> tradeLikes;
+
     @Column(name = "token")
     private String token;
 

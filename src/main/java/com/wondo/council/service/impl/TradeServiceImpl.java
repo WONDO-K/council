@@ -5,6 +5,7 @@ import com.wondo.council.domain.TradeLike;
 import com.wondo.council.domain.User;
 import com.wondo.council.domain.enums.TradeStatus;
 import com.wondo.council.dto.exception.article.PostNotFoundException;
+import com.wondo.council.dto.trade.TradeDto;
 import com.wondo.council.dto.trade.TradeRequestDto;
 import com.wondo.council.repository.TradeLikeRepository;
 import com.wondo.council.repository.TradeRepository;
@@ -88,5 +89,19 @@ public class TradeServiceImpl implements TradeService {
             throw new PostNotFoundException();
         }
 
+    }
+
+    @Override
+    public TradeDto getTrade(Long uid) {
+        Optional<Trade> trade = tradeRepository.findById(uid);
+        if (trade.isPresent()){
+            log.info("거래 게시글 조회 완료.");
+            trade.get().addViewCount();
+            tradeRepository.save(trade.get());
+            return TradeDto.from(trade.get());
+        } else {
+            log.info("거래 게시글이 존재하지 않습니다.");
+            throw new PostNotFoundException();
+        }
     }
 }

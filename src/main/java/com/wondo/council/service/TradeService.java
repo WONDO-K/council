@@ -1,6 +1,5 @@
 package com.wondo.council.service;
 
-import com.wondo.council.domain.Trade;
 import com.wondo.council.domain.enums.TradeCategory;
 import com.wondo.council.dto.trade.TradeDto;
 import com.wondo.council.dto.trade.TradeRequestDto;

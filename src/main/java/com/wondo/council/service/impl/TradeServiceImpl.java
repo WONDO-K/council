@@ -40,8 +40,6 @@ public class TradeServiceImpl implements TradeService {
         User user = userService.getMyInfo();
         String regDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()).toString();
 
-        //TradeCategory category = transCategory(tradeRequestDto.getTradeCategory());
-
         Trade trade = Trade.builder()
                 .title(tradeRequestDto.getTitle())
                 .content(tradeRequestDto.getContent())

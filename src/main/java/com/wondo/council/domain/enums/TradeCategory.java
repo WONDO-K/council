@@ -2,7 +2,6 @@ package com.wondo.council.domain.enums;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

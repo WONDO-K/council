@@ -1,6 +1,5 @@
 package com.wondo.council.dto.trade;
 
-import com.wondo.council.domain.enums.TradeCategory;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -30,6 +29,4 @@ public class TradeRequestDto {
     @NotNull
     private int price;
 
-//    @ApiModelProperty(name = "trade_category")
-//    private TradeCategory tradeCategory;
 }

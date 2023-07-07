@@ -1,6 +1,7 @@
 package com.wondo.council.domain.image;
 
 import com.wondo.council.domain.Trade;
+import com.wondo.council.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,5 +38,8 @@ public class TradeImage {
     @JoinColumn(name = "trade_uid")
     private Trade trade;
 
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_uid")
+    private User user;
 
 }

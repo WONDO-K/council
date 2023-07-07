@@ -1,9 +1,11 @@
 package com.wondo.council.service.FileUpload.impl;
 
 import com.wondo.council.domain.Trade;
+import com.wondo.council.domain.User;
 import com.wondo.council.domain.image.TradeImage;
 import com.wondo.council.repository.TradeImageRepository;
 import com.wondo.council.service.FileUpload.TradeFileUploadService;
+import com.wondo.council.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ResourceLoader;
@@ -22,6 +24,8 @@ public class TradeFileUploadServiceImpl implements TradeFileUploadService {
 
     private final TradeImageRepository tradeImageRepository;
 
+    private final UserService userService;
+
 
     private final ResourceLoader resourceLoader;
 
@@ -30,6 +34,8 @@ public class TradeFileUploadServiceImpl implements TradeFileUploadService {
 
     @Override
     public String uploadFile(MultipartFile file, Trade trade) {
+        User user = userService.getMyInfo();
+
         try {
             if(file!=null && !file.isEmpty()){
                 String savedName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
@@ -55,6 +61,7 @@ public class TradeFileUploadServiceImpl implements TradeFileUploadService {
                         .fileSize(file.getSize())
                         .delete_yn(false)
                         .trade(trade)
+                        .user(user)
                         .build();
 
                 tradeImageRepository.save(tradeImage);

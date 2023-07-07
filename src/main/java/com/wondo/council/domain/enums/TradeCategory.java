@@ -1,5 +1,12 @@
 package com.wondo.council.domain.enums;
 
+import lombok.extern.log4j.Log4j2;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@Log4j2
 public enum TradeCategory {
     DIGITAL_DEVICES("디지털기기"),
     HOUSEHOLD_APPLIANCES("생활가전"),
@@ -28,5 +35,17 @@ public enum TradeCategory {
 
     public String getLabel() {
         return label;
+    }
+
+    public static TradeCategory transCategory(String tradeCategory) {
+        List<TradeCategory> categoryList = Arrays.asList(TradeCategory.values());
+
+        for(TradeCategory categories:categoryList){
+            if (tradeCategory.equals(categories.toString())){
+                return categories;
+            }
+        }
+        log.info("카테고리 오류");
+        throw new IllegalArgumentException();
     }
 }

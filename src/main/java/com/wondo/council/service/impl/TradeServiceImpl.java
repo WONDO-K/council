@@ -3,6 +3,7 @@ package com.wondo.council.service.impl;
 import com.wondo.council.domain.Trade;
 import com.wondo.council.domain.TradeLike;
 import com.wondo.council.domain.User;
+import com.wondo.council.domain.enums.TradeCategory;
 import com.wondo.council.domain.enums.TradeStatus;
 import com.wondo.council.dto.exception.article.PostNotFoundException;
 import com.wondo.council.dto.trade.TradeDto;
@@ -20,9 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -36,10 +35,12 @@ public class TradeServiceImpl implements TradeService {
     private final UserService userService;
 
     @Override
-    public void createTrade(TradeRequestDto tradeRequestDto, MultipartFile[] imageFiles) {
+    public void createTrade(TradeRequestDto tradeRequestDto, MultipartFile[] imageFiles, TradeCategory tradeCategory) {
 
         User user = userService.getMyInfo();
         String regDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()).toString();
+
+        //TradeCategory category = transCategory(tradeRequestDto.getTradeCategory());
 
         Trade trade = Trade.builder()
                 .title(tradeRequestDto.getTitle())
@@ -48,7 +49,7 @@ public class TradeServiceImpl implements TradeService {
                 .regDate(regDate)
                 .view(0)
                 .tradeStatus(TradeStatus.ONGOING)
-                .tradeCategory(tradeRequestDto.getTradeCategory())
+                .tradeCategory(tradeCategory)
                 .user(user)
                 .build();
         tradeRepository.save(trade);
@@ -77,7 +78,7 @@ public class TradeServiceImpl implements TradeService {
         String date = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()).toString();
         Optional<Trade> trade = tradeRepository.findById(tradeUid);
 
-        if(trade.get()!=null){
+        if(!trade.isPresent()){
             TradeLike tradeLike = TradeLike.builder()
                     .user(user)
                     .trade(trade.get())
@@ -104,4 +105,6 @@ public class TradeServiceImpl implements TradeService {
             throw new PostNotFoundException();
         }
     }
+
+
 }
